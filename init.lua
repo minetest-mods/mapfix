@@ -1,13 +1,18 @@
 minetest.register_chatcommand("mapfix", {
 	params = "<size>",
-	description = "Recalculate the flowing liquids of a chunk",
+	description = "Recalculate the flowing liquids and the light of a chunk",
 	func = function(name, param)
 		local pos = minetest.get_player_by_name(name):getpos()
 		local size = tonumber(param) or 40
+
 		if size > 50 and not minetest.check_player_privs(name, {server=true}) then
 			return false, "You need the server privilege to exceed the radius of 50 blocks"
 		end
-		local minp, maxp = {x = math.floor(pos.x - size), y = math.floor(pos.y - size), z = math.floor(pos.z - size)}, {x = math.ceil(pos.x + size), y = math.ceil(pos.y + size), z = math.ceil(pos.z + size)}
+
+		local minp = vector.round(vector.subtract(pos, size - 0.5))
+		local maxp = vector.round(vector.add(pos, size + 0.5))
+
+		-- use the voxelmanip to fix problems
 		local vm = minetest.get_voxel_manip()
 		vm:read_from_map(minp, maxp)
 		vm:calc_lighting()
