@@ -13,9 +13,7 @@ minetest.register_chatcommand("mapfix", {
 		local maxp = vector.round(vector.add(pos, size + 0.5))
 
 		-- use the voxelmanip to fix problems
-		local vm = minetest.get_voxel_manip()
-		vm:read_from_map(minp, maxp)
-		vm:calc_lighting()
+		local vm = minetest.get_voxel_manip(minp, maxp)
 		vm:update_liquids()
 		vm:write_to_map()
 		vm:update_map()
