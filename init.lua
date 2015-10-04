@@ -5,7 +5,7 @@ local function mapfix(minp, maxp)
 	vm:update_map()
 end
 
-local previous = -math.huge
+local previous = os.time()
 
 local default_size = tonumber(minetest.setting_get("mapfix_default_size")) or 40
 local max_size = tonumber(minetest.setting_get("mapfix_max_size")) or 50
@@ -16,12 +16,12 @@ minetest.register_chatcommand("mapfix", {
 	description = "Recalculate the flowing liquids and the light of a chunk",
 	func = function(name, param)
 		local pos = minetest.get_player_by_name(name):getpos()
-		local size = tonumber(param) or 40
+		local size = tonumber(param) or default_size
 		local privs = minetest.check_player_privs(name, {server=true})
 		local time = os.time()
 
 		if not privs then
-			if size > 50 and not privs then
+			if size > max_size then
 				return false, "You need the server privilege to exceed the radius of " .. max_size .. " blocks"
 			elseif time - previous < delay then
 				return false, "Wait at least " .. delay .. " seconds from the previous \"/mapfix\"."
