@@ -9,9 +9,9 @@ end
 
 local previous = os.time()
 
-local default_size = tonumber(minetest.setting_get("mapfix_default_size")) or 24
-local max_size = tonumber(minetest.setting_get("mapfix_max_size")) or 32
-local delay = tonumber(minetest.setting_get("mapfix_delay")) or 15
+local default_size = tonumber(minetest.settings:get("mapfix_default_size")) or 24
+local max_size = tonumber(minetest.settings:get("mapfix_max_size")) or 32
+local delay = tonumber(minetest.settings:get("mapfix_delay")) or 15
 
 minetest.register_chatcommand("mapfix", {
 	params = "<size>",
