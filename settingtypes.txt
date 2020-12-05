@@ -1,0 +1,4 @@
+mapfix_default_size (default size a mapfix range is) int 24
+mapfix_max_size (max size a mapfix range can be) int 32
+mapfix_delay (delay between issueing of /mapfix for players) int 15
+mapfix_priv (priv for unrestricted /mapfix use) string server
