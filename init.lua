@@ -13,6 +13,16 @@ local default_size = tonumber(minetest.settings:get("mapfix_default_size")) or 2
 local max_size = tonumber(minetest.settings:get("mapfix_max_size")) or 32
 local delay = tonumber(minetest.settings:get("mapfix_delay")) or 15
 
+local function mapfix_priv()
+    local priv = minetest.settings:get("mapfix_priv")
+
+    if not minetest.registered_privileges[priv] then
+        return "server"
+    else
+        return priv
+    end
+end
+
 minetest.register_chatcommand("mapfix", {
 	params = "<size>",
 	description = "Recalculate the flowing liquids and the light of a chunk",
@@ -23,12 +33,12 @@ minetest.register_chatcommand("mapfix", {
 		if size >= 121 then
 			return false, "Radius is too big"
 		end
-		local privs = minetest.check_player_privs(name, {server=true})
+		local privs = minetest.check_player_privs(name, mapfix_priv())
 		local time = os.time()
 
 		if not privs then
 			if size > max_size then
-				return false, "You need the server privilege to exceed the radius of " .. max_size .. " blocks"
+				return false, "You need the " .. mapfix_priv() .. " privilege to exceed the radius of " .. max_size .. " blocks"
 			elseif time - previous < delay then
 				return false, "Wait at least " .. delay .. " seconds from the previous \"/mapfix\"."
 			end
