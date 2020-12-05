@@ -11,3 +11,4 @@ Look at the water and the jungle trunk at the center.
 * mapfix_default_size (by default 24) : size used when omitted
 * mapfix_max_size (by default 32) : maximum size allowed for players
 * mapfix_delay (by default 15) : minimal delay in seconds between 2 `/mapfix` (to avoid server freezing)
+* mapfix_priv (by default server) : priv that allows use of `/mapfix` without restrictions
